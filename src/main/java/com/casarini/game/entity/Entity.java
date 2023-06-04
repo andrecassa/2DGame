@@ -3,8 +3,6 @@ package com.casarini.game.entity;
 import com.casarini.game.graphics.Animation;
 import com.casarini.game.graphics.Sprite;
 import com.casarini.game.util.AABB;
-import com.casarini.game.util.KeyHandler;
-import com.casarini.game.util.MouseHandler;
 import com.casarini.game.util.Vector2f;
 
 import java.awt.*;
@@ -12,10 +10,14 @@ import java.awt.image.BufferedImage;
 
 public abstract class Entity {
 
-    private final int UP = 0;
-    private final int DOWN = 1;
-    private final int RIGHT = 2;
-    private final int LEFT = 3;
+    private final int UP = 5;
+    private final int IDLEUP = 2;
+    private final int DOWN = 3;
+    private final int IDLEDOWN = 0;
+    private final int RIGHT = 4;
+    private final int IDLERIGHT = 1;
+    private final int LEFT = 7;
+    private final int IDLELEFT = 6;
     protected int currentAnimation;
 
     protected Animation ani;
@@ -24,22 +26,28 @@ public abstract class Entity {
     protected int size;
 
     protected boolean up;
+    protected boolean upIdle;
     protected boolean down;
+    protected boolean downIdle;
     protected boolean right;
+    protected boolean rightIdle;
     protected boolean left;
+    protected boolean leftIdle;
     protected boolean attack;
     protected int attackSpeed;
     protected int attackDuration;
 
+    protected int last = 100;
+
     protected float dx;
     protected float dy;
-    protected float maxSpeed;
-    protected float acc;
-    protected float deacc;
+    protected float maxSpeed = 4f;
+    protected float acc = 3f;
+    protected float deacc = 0.01f;
     protected AABB hitBounds;
     protected AABB bounds;
 
-
+    public void setUpIdle(){upIdle = true;}
 
     public Entity(Sprite sprite, Vector2f origin, int size){
         this.sprite = sprite;
@@ -72,23 +80,47 @@ public abstract class Entity {
     }
     private void animate() {
         if(up){
+            last = UP;
             if(currentAnimation != UP || ani.getDelay() == -1){
                 setAnimation(UP, sprite.getSpriteArray(UP), 5);
             }
         }
         else if(down){
+            last = DOWN;
             if(currentAnimation != DOWN || ani.getDelay() == -1){
                 setAnimation(DOWN, sprite.getSpriteArray(DOWN), 5);
             }
         }
         else if(right){
+            last = RIGHT;
             if(currentAnimation != RIGHT || ani.getDelay() == -1){
                 setAnimation(RIGHT, sprite.getSpriteArray(RIGHT), 5);
             }
         }
         else if(left){
+            last = LEFT;
             if(currentAnimation != LEFT || ani.getDelay() == -1){
                 setAnimation(LEFT, sprite.getSpriteArray(LEFT), 5);
+            }
+        }
+        else if(last == UP){
+            if(currentAnimation != IDLEUP || ani.getDelay() == -1){
+                setAnimation(IDLEUP, sprite.getSpriteArray(IDLEUP), 5);
+            }
+        }
+        else if(last == DOWN){
+            if(currentAnimation != IDLEDOWN || ani.getDelay() == -1){
+                setAnimation(IDLEDOWN, sprite.getSpriteArray(IDLEDOWN), 5);
+            }
+        }
+        else if(last == RIGHT){
+            if(currentAnimation != IDLERIGHT || ani.getDelay() == -1) {
+                setAnimation(IDLERIGHT, sprite.getSpriteArray(IDLERIGHT), 5);
+            }
+        }
+        else if(last == LEFT){
+            if(currentAnimation != IDLELEFT || ani.getDelay() == -1){
+                setAnimation(IDLELEFT, sprite.getSpriteArray(IDLELEFT), 5);
             }
         }
         else{
@@ -124,7 +156,5 @@ public abstract class Entity {
 
 
     public abstract void render(Graphics2D g);
-    public void input(KeyHandler key, MouseHandler mouse){
 
     }
-}

@@ -21,20 +21,20 @@ public class Player extends Entity {
         }else{
             if(dy < 0){
                 dy += deacc;
-                if(dy > 0){
+                if(dy < 0){
                     dy = 0;
                 }
             }
         }
         if(down){
             dy += acc;
-            if(dy < maxSpeed){
+            if(dy > maxSpeed){
                 dy = maxSpeed;
             }
         }else{
-            if(dy < 0){
+            if(dy > 0){
                 dy -= deacc;
-                if(dy < 0){
+                if(dy > 0){
                     dy = 0;
                 }
             }
@@ -47,7 +47,7 @@ public class Player extends Entity {
         }else{
             if(dx < 0){
                 dx += deacc;
-                if(dx > 0){
+                if(dx < 0){
                     dx = 0;
                 }
             }
@@ -79,7 +79,6 @@ public class Player extends Entity {
         g.drawImage(ani.getImage(), (int) (pos.x), (int)(pos.y), size, size, null);
     }
     public void input(MouseHandler mouse, KeyHandler key){
-
         if(mouse.getMouseB() == 1){
             System.out.println("Player: " + pos.x + " " + pos.y);
         }

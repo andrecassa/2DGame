@@ -1,0 +1,10 @@
+Sprite
+private BufferedImage loadSprite(String file){
+        BufferedImage sprite = null;
+        try{
+            sprite = ImageIO.read(getClass().getClassLoader().getResourceAsStream(file));
+        }catch(Exception e){
+            System.out.println("ERROR: impossibile caricare il file " + file);
+        }
+        return sprite;
+    }

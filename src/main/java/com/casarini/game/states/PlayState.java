@@ -1,7 +1,8 @@
 package com.casarini.game.states;
 
-import com.casarini.game.graphics.Font;
+import com.casarini.game.entity.Player;
 import com.casarini.game.graphics.Sprite;
+import com.casarini.game.tiles.TileManager;
 import com.casarini.game.util.KeyHandler;
 import com.casarini.game.util.MouseHandler;
 import com.casarini.game.util.Vector2f;
@@ -10,26 +11,31 @@ import java.awt.*;
 
 public class PlayState extends GameState{
     private com.casarini.game.graphics.Font font;
-
+    private Player player;
 
     public PlayState(GameStateManager gsm){
         super(gsm);
+        TileManager tm = new TileManager("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\tile\\mappa1.png");
         //font = new Font("font/RetroGaming.ttf", 16, 16);
+        player = new Player(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\player1.png"), new Vector2f(300, 300), 128);
 
     }
 
     @Override
     public void update() {
-
+        player.update();
     }
 
     @Override
     public void input(MouseHandler mouse, KeyHandler key) {
-
+        player.input(mouse, key);
     }
 
     @Override
     public void render(Graphics2D g) {
+
+        player.render(g);
+
         java.awt.Font a = new java.awt.Font("Arial", java.awt.Font.BOLD, 24);
         g.setFont(a);
         g.setColor(Color.black);

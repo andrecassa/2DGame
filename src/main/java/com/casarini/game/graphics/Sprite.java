@@ -1,16 +1,18 @@
 package com.casarini.game.graphics;
 
+import com.casarini.game.states.PlayState;
 import com.casarini.game.util.Vector2f;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 
 public class Sprite {
     private BufferedImage SPRITESHEET = null;
     private BufferedImage[][] spriteArray;
-    private final int TILE_SIZE = 32;
+    private final int TILE_SIZE = 48;
     private int w;
     private int h;
     private int wSprite;
@@ -26,6 +28,7 @@ public class Sprite {
         wSprite = SPRITESHEET.getWidth() / w;
         hSprite = SPRITESHEET.getHeight() / h;
         LoadSpriteArray();
+
     }
 
     public Sprite(String file, int w, int h){
@@ -37,7 +40,6 @@ public class Sprite {
         wSprite = SPRITESHEET.getWidth() / w;
         hSprite = SPRITESHEET.getHeight() / h;
         LoadSpriteArray();
-
     }
     public void SetSize(int width, int height){
         setWidth(width);
@@ -54,22 +56,24 @@ public class Sprite {
     }
     public int getWidth(){return w;}
     public int getHeight(){return h;}
+    public int getSpriteSheetWidth() { return SPRITESHEET.getWidth(); }
+    public int getSpriteSheetHeight() { return SPRITESHEET.getHeight(); }
 
     private BufferedImage loadSprite(String file){
         BufferedImage sprite = null;
         try{
-            sprite = ImageIO.read(getClass().getClassLoader().getResourceAsStream(file));
+            sprite = ImageIO.read(new File(file));
         }catch(Exception e){
             System.out.println("ERROR: impossibile caricare il file " + file);
         }
         return sprite;
     }
     public void LoadSpriteArray(){
-        spriteArray = new BufferedImage[wSprite][hSprite];
+        spriteArray = new BufferedImage[hSprite][wSprite];
 
-        for(int x=0; x<wSprite; x++){
-            for(int y=0; y<hSprite; y++){
-                spriteArray[x][y] = getSprite(x, y);
+        for(int y=0; y<hSprite; y++){
+            for(int x=0; x<wSprite; x++){
+                spriteArray[y][x] = getSprite(x, y);
             }
         }
     }

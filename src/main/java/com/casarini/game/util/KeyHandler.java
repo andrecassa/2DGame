@@ -1,7 +1,9 @@
 package com.casarini.game.util;
 
 import com.casarini.game.GamePanel;
+import com.casarini.game.entity.Entity;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -82,5 +84,6 @@ public class KeyHandler implements KeyListener{
     @Override
     public void keyReleased(KeyEvent e) {
         toggle (e, false);
+        //if(e.getKeyCode() == KeyEvent.VK_W){entity.setUpIdle();}
     }
 }
