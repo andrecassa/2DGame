@@ -1,9 +1,12 @@
 package com.casarini.game.tiles.blocks;
 
+import com.casarini.game.graphics.Sprite;
 import com.casarini.game.util.AABB;
 import com.casarini.game.util.Vector2f;
+import javafx.scene.control.Slider;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class Block {
@@ -11,6 +14,8 @@ public class Block {
     protected int h;
     protected BufferedImage img;
     protected Vector2f pos;
+    protected AffineTransform at;
+    private Slider zoomSlider;
 
     public Block(BufferedImage img, Vector2f pos, int w, int h){
         this.img = img;
@@ -26,5 +31,4 @@ public class Block {
     public void render(Graphics2D g){
         g.drawImage(img, (int)pos.getWorldVar().x, (int)pos.getWorldVar().y, w, h, null);
     }
-
 }

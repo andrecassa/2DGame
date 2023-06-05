@@ -22,19 +22,24 @@ public class TileMapObj extends TileMap{
         for(int i=0; i<(width*height); i++){
             int tmp = Integer.parseInt(block[i].replaceAll("\\s+", ""));
             if(tmp != 0){
-                if(tmp == 172){
-                    tmpBlock = new HoleBlock(sprite.getSprite((int)((tmp-1) % tileColumns), (int)((tmp-1)) / tileColumns), new Vector2f((int) (i%width) * tileWidth, (int) (i/height) * tileHeight), tileWidth, tileHeight);
+                if(tmp == -1){
+                    tmpBlock = new HoleBlock(sprite.getSprite((int)((tmp-1) % tileColumns), (int)((tmp-1)) / tileColumns), new Vector2f((int) (i%width) * tileWidth, (int) (i%height) * tileHeight), tileWidth, tileHeight);
                 }else{
+                    Vector2f v = new Vector2f((int) (i%width) * tileWidth, (int) (i/height) * tileHeight);
                     tmpBlock = new ObjBlock(sprite.getSprite((int)((tmp-1) % tileColumns), (int)((tmp-1)) / tileColumns), new Vector2f((int) (i%width) * tileWidth, (int) (i/height) * tileHeight), tileWidth, tileHeight);
                 }
                 tmo_blocks.put((String.valueOf((int) (i%width)) + "," + String.valueOf((int) (i/height))), tmpBlock);
             }
         }
+        int a = 10;
     }
 
     public void render(Graphics2D g) {
+        int c = 0;
         for(Block block: tmo_blocks.values()){
+            c++;
             block.render(g);
         }
+        int a = 10;
     }
 }

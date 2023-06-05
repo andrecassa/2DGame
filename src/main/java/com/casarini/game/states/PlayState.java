@@ -1,5 +1,6 @@
 package com.casarini.game.states;
 
+import com.casarini.game.GamePanel;
 import com.casarini.game.entity.Player;
 import com.casarini.game.graphics.Sprite;
 import com.casarini.game.tiles.TileManager;
@@ -15,17 +16,22 @@ public class PlayState extends GameState{
     private com.casarini.game.graphics.Font font;
     private Player player;
     private TileManager tm;
+    public static Vector2f map;
 
     public PlayState(GameStateManager gsm){
         super(gsm);
-        //tm = new TileManager("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\tile\\mappa1.png");
+        map = new Vector2f();
+        Vector2f.setWorldVar(map.x, map.y);
+
+        tm = new TileManager("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\tile\\mappa1.xml");
         //font = new Font("font/RetroGaming.ttf", 16, 16);
-        player = new Player(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\src\\main\\resources\\entity\\player1.png"), new Vector2f(300, 300), 128);
+        player = new Player(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\src\\main\\resources\\entity\\player1.png", 48), new Vector2f(0 + (GamePanel.width/2), 0 + (GamePanel.height/2)), 48);
 
     }
 
     @Override
     public void update() {
+        Vector2f.setWorldVar(map.x, map.y);
         player.update();
     }
 
@@ -36,7 +42,7 @@ public class PlayState extends GameState{
 
     @Override
     public void render(Graphics2D g) {
-        //tm.render(g);
+        tm.render(g);
         player.render(g);
 
         /*java.awt.Font a = new java.awt.Font("Arial", java.awt.Font.BOLD, 24);

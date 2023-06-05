@@ -2,6 +2,7 @@ package com.casarini.game.tiles;
 
 import com.almasb.fxgl.entity.level.tiled.TiledMap;
 import com.casarini.game.graphics.Sprite;
+import com.dlsc.formsfx.model.structure.StringField;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -27,7 +28,6 @@ public class TileManager {
         tm = new ArrayList<TileMap>();
         addTileMap(path, 16, 16);
     }
-
     private void addTileMap(String path, int blockWidth, int blockHeight) {
         String imagePath;
         String imagePathTSX;
@@ -80,7 +80,7 @@ public class TileManager {
                 }
 
                 data[i] = eElement.getElementsByTagName("data").item(0).getTextContent();
-                System.out.println("-------------------------------------------" + data[i]);
+                //System.out.println("-------------------------------------------" + data[i]);
 
                 if(i>=1){
                     tm.add(new TileMapNorm(data[i], sprite, width, height, blockWidth, blockHeight, tileColumns));
@@ -88,10 +88,8 @@ public class TileManager {
                     tm.add(new TileMapObj(data[i], sprite, width, height, blockWidth, blockHeight, tileColumns));
                 }
             }
-
         }catch (Exception e){
             System.out.println("ERROR: tileMap " + e);
-
         }
     }
 

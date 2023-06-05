@@ -18,7 +18,6 @@ public class ObjBlock extends Block{
 
     public void render(Graphics2D g){
         super.render(g);
-        g.setColor(Color.white);
-        g.drawRect((int)pos.getWorldVar().x, (int)pos.getWorldVar().y, w, h);
+
     }
 }

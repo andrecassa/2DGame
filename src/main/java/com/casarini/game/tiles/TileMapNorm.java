@@ -20,10 +20,11 @@ public class TileMapNorm extends TileMap {
         for(int i=0; i<(width*height); i++){
             int tmp = Integer.parseInt(block[i].replaceAll("\\s+", ""));
             if(tmp != 0){
-                sprite.getSprite(1, 2);
-                blocks.add(new NormBlock(sprite.getSprite((int)((tmp-1) % tileColumns), (int)((tmp-1)) / tileColumns), new Vector2f((int) (i%width) * tileWidth, (int) (i%height) * tileHeight), tileWidth, tileHeight));
+
+                blocks.add(new NormBlock(sprite.getSprite((int)((tmp-1) % tileColumns), (int)((tmp-1)) / tileColumns), new Vector2f((int) (i%width) * tileWidth, (int) (i/height) * tileHeight), tileWidth, tileHeight));
             }
         }
+        int a = 0;
     }
 
     //@Override

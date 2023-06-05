@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Sprite {
     private BufferedImage SPRITESHEET = null;
     private BufferedImage[][] spriteArray;
-    private final int TILE_SIZE = 48;
+    private final int TILE_SIZE = 16;
     private int w;
     private int h;
     private int wSprite;
@@ -29,7 +29,17 @@ public class Sprite {
         wSprite = SPRITESHEET.getWidth() / w;
         hSprite = SPRITESHEET.getHeight() / h;
         LoadSpriteArray();
+    }
+    public Sprite(String file, int TILE_SIZE){
+        w = TILE_SIZE;
+        h = TILE_SIZE;
 
+        System.out.println("loading: " + file + "...");
+        SPRITESHEET = loadSprite(file);
+
+        wSprite = SPRITESHEET.getWidth() / w;
+        hSprite = SPRITESHEET.getHeight() / h;
+        LoadSpriteArray();
     }
 
     public Sprite(String file, int w, int h){
@@ -62,6 +72,7 @@ public class Sprite {
 
     private BufferedImage loadSprite(String file){
         BufferedImage sprite = null;
+        String a = "C:\\Users\\stefa\\IdeaProjects\\Game\\res\\tile\\map1\\map1.png";
         try{
             sprite = ImageIO.read(new File(file));
         }catch(Exception e){

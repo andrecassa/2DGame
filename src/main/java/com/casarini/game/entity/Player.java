@@ -1,6 +1,7 @@
 package com.casarini.game.entity;
 
 import com.casarini.game.graphics.Sprite;
+import com.casarini.game.states.PlayState;
 import com.casarini.game.util.KeyHandler;
 import com.casarini.game.util.MouseHandler;
 import com.casarini.game.util.Vector2f;
@@ -11,6 +12,8 @@ public class Player extends Entity {
 
     public Player(Sprite sprite, Vector2f origin, int size) {
         super(sprite, origin, size);
+        acc = 2f;
+        maxSpeed = 3f;
     }
     public void move(){
         if(up){
@@ -71,12 +74,14 @@ public class Player extends Entity {
     public void update(){
         super.update();
         move();
+        PlayState.map.x += dx;
+        PlayState.map.y += dy;
         pos.x += dx;
         pos.y += dy;
     }
     @Override
     public void render(Graphics2D g) {
-        g.drawImage(ani.getImage(), (int) (pos.x), (int)(pos.y), size, size, null);
+        g.drawImage(ani.getImage(), (int) (pos.getWorldVar().x), (int)(pos.getWorldVar().y), size, size, null);
     }
     public void input(MouseHandler mouse, KeyHandler key){
         if(mouse.getMouseB() == 1){
