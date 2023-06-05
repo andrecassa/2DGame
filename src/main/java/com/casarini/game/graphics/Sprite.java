@@ -1,5 +1,6 @@
 package com.casarini.game.graphics;
 
+import com.casarini.game.graphics.Font;
 import com.casarini.game.states.PlayState;
 import com.casarini.game.util.Vector2f;
 

@@ -9,15 +9,18 @@ import com.casarini.game.util.Vector2f;
 
 import java.awt.*;
 
+import static com.casarini.game.tiles.TileManager.tm;
+
 public class PlayState extends GameState{
     private com.casarini.game.graphics.Font font;
     private Player player;
+    private TileManager tm;
 
     public PlayState(GameStateManager gsm){
         super(gsm);
-        TileManager tm = new TileManager("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\tile\\mappa1.png");
+        //tm = new TileManager("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\tile\\mappa1.png");
         //font = new Font("font/RetroGaming.ttf", 16, 16);
-        player = new Player(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\player1.png"), new Vector2f(300, 300), 128);
+        player = new Player(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\src\\main\\resources\\entity\\player1.png"), new Vector2f(300, 300), 128);
 
     }
 
@@ -33,13 +36,14 @@ public class PlayState extends GameState{
 
     @Override
     public void render(Graphics2D g) {
-
+        //tm.render(g);
         player.render(g);
 
-        java.awt.Font a = new java.awt.Font("Arial", java.awt.Font.BOLD, 24);
+        /*java.awt.Font a = new java.awt.Font("Arial", java.awt.Font.BOLD, 24);
         g.setFont(a);
         g.setColor(Color.black);
-        g.drawString("vaffanculo", 50, 50);
+        g.drawString("vaffanculo", 50, 50);*/
+
 
         //Sprite.drawArray(g, font, "tua mamma", new Vector2f(100, 100),32, 32, 0, 0);
     }

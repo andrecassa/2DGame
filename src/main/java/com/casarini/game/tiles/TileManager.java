@@ -18,13 +18,14 @@ import java.util.List;
 
 public class TileManager {
 
-    public static ArrayList<TiledMap> tm;
-    public TileManager(int a){
-        tm = new ArrayList<TiledMap>();
+    public static ArrayList<TileMap> tm;
+
+    public TileManager(){
+        tm = new ArrayList<TileMap>();
     }
     public TileManager(String path){
-        tm = new ArrayList<TiledMap>();
-        addTileMap(path, 64, 64);
+        tm = new ArrayList<TileMap>();
+        addTileMap(path, 16, 16);
     }
 
     private void addTileMap(String path, int blockWidth, int blockHeight) {
@@ -37,7 +38,7 @@ public class TileManager {
         int tileHeight;
         int tileCount;
         int tileColumns;
-        int layers = 5;
+        int layers;
         String[] data = new String[10];
 
         try{
@@ -65,14 +66,6 @@ public class TileManager {
             tileColumns = sprite.getSpriteSheetWidth() / tileWidth;
             tileCount = tileColumns * (sprite.getSpriteSheetHeight() / tileHeight);
 
-            //imagePath = eElement.getAttribute("name");
-            //tileWidth = Integer.parseInt(eElement.getAttribute("tilewidth"));
-            //tileHeight = Integer.parseInt(eElement.getAttribute("tileheight"));
-            //tileCount = Integer.parseInt(eElement.getAttribute("tilecount"));
-            //tileColumns = Integer.parseInt(eElement.getAttribute("tilecolumns"));
-            //Sprite sprite = new Sprite("tile/" + imagePath + ".png", tileWidth, tileHeight);
-
-
             list = doc.getElementsByTagName("layer");
             layers = list.getLength();
 
@@ -87,7 +80,13 @@ public class TileManager {
                 }
 
                 data[i] = eElement.getElementsByTagName("data").item(0).getTextContent();
-                System.out.println(("---------------------------\n" + data[i]));
+                System.out.println("-------------------------------------------" + data[i]);
+
+                if(i>=1){
+                    tm.add(new TileMapNorm(data[i], sprite, width, height, blockWidth, blockHeight, tileColumns));
+                }else {
+                    tm.add(new TileMapObj(data[i], sprite, width, height, blockWidth, blockHeight, tileColumns));
+                }
             }
 
         }catch (Exception e){
@@ -96,7 +95,12 @@ public class TileManager {
         }
     }
 
-    public void render (Graphics2D g){
+    public void
+
+    render (Graphics2D g){
+        for(int i=0; i<tm.size(); i++){
+            tm.get(i).render(g);
+        }
 
     }
 }
