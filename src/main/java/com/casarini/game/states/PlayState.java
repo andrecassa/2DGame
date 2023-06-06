@@ -16,6 +16,7 @@ public class PlayState extends GameState{
     private com.casarini.game.graphics.Font font;
     private Player player;
     private TileManager tm;
+
     public static Vector2f map;
 
     public PlayState(GameStateManager gsm){
@@ -25,7 +26,8 @@ public class PlayState extends GameState{
 
         tm = new TileManager("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\tile\\mappa1.xml");
         //font = new Font("font/RetroGaming.ttf", 16, 16);
-        player = new Player(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\src\\main\\resources\\entity\\player1.png", 48), new Vector2f(0 + (GamePanel.width/2), 0 + (GamePanel.height/2)), 48);
+        int size = 128;
+        player = new Player(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\src\\main\\resources\\entity\\player1.png", 48), new Vector2f( -16 - size/3 + (GamePanel.width/2), -32 -size/3 + (GamePanel.height/2)), 128);
 
     }
 

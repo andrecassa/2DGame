@@ -1,6 +1,7 @@
 package com.casarini.game.util;
 
 import com.casarini.game.entity.Entity;
+import com.casarini.game.tiles.TileMapObj;
 
 public class AABB {
 
@@ -81,4 +82,17 @@ public class AABB {
 
         return false;
     }
+
+    /*public boolean collisionTile(float ax, float ay){
+        for(int c=0; c<4; c++){
+            int xt = (int) ((pos.x + ax) + (c % 2) * w + xOffset) / 64;
+            int yt = (int) ((pos.y + ax) + (c % 2) * h + yOffset) / 64;
+
+            if(TileMapObj.tmo_blocks.containKey(String.valueOf(xt) + "," + String.valueOf(yt))){
+                return TileMapObj.tmo_blocks.get(String.valueOf(xt) + "," + String.valueOf(yt)).update(this);
+            }
+        }
+        return false;
+
+    }*/
 }

@@ -29,6 +29,11 @@ public class Block {
     }
 
     public void render(Graphics2D g){
+        int a =(int)pos.getWorldVar().x;
+        int b =(int)pos.getWorldVar().y;
+
         g.drawImage(img, (int)pos.getWorldVar().x, (int)pos.getWorldVar().y, w, h, null);
+        //g.drawImage(img.getScaledInstance(4, 4, Image.SCALE_SMOOTH), (int)(pos.getWorldVar().x * 4), (int)(pos.getWorldVar().y * 4), w * 4, h * 4, null);
+
     }
 }

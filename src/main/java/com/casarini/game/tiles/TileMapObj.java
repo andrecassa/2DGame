@@ -25,7 +25,6 @@ public class TileMapObj extends TileMap{
                 if(tmp == -1){
                     tmpBlock = new HoleBlock(sprite.getSprite((int)((tmp-1) % tileColumns), (int)((tmp-1)) / tileColumns), new Vector2f((int) (i%width) * tileWidth, (int) (i%height) * tileHeight), tileWidth, tileHeight);
                 }else{
-                    Vector2f v = new Vector2f((int) (i%width) * tileWidth, (int) (i/height) * tileHeight);
                     tmpBlock = new ObjBlock(sprite.getSprite((int)((tmp-1) % tileColumns), (int)((tmp-1)) / tileColumns), new Vector2f((int) (i%width) * tileWidth, (int) (i/height) * tileHeight), tileWidth, tileHeight);
                 }
                 tmo_blocks.put((String.valueOf((int) (i%width)) + "," + String.valueOf((int) (i/height))), tmpBlock);

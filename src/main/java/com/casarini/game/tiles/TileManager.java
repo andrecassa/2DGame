@@ -26,7 +26,7 @@ public class TileManager {
     }
     public TileManager(String path){
         tm = new ArrayList<TileMap>();
-        addTileMap(path, 16, 16);
+        addTileMap(path, 64, 64);
     }
     private void addTileMap(String path, int blockWidth, int blockHeight) {
         String imagePath;
@@ -44,7 +44,7 @@ public class TileManager {
         try{
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
-            String f = "C:/Users/stefa/IdeaProjects/Game/res/tile/mappa1.xml";
+            String f = "C:/Users/stefa/IdeaProjects/Game/res/tile/mappa1_4scaled.xml";
             Document doc = builder.parse(new File(f));
             doc.getDocumentElement().normalize();
 
@@ -80,7 +80,7 @@ public class TileManager {
                 }
 
                 data[i] = eElement.getElementsByTagName("data").item(0).getTextContent();
-                //System.out.println("-------------------------------------------" + data[i]);
+                System.out.println("-------------------------------------------" + data[i]);
 
                 if(i>=1){
                     tm.add(new TileMapNorm(data[i], sprite, width, height, blockWidth, blockHeight, tileColumns));
@@ -99,6 +99,5 @@ public class TileManager {
         for(int i=0; i<tm.size(); i++){
             tm.get(i).render(g);
         }
-
     }
 }

@@ -24,6 +24,9 @@ public class GamePanel extends JPanel{
         setFocusable(true);
         requestFocusInWindow();
     }
+    public void zoomIn(){
+
+    }
 
     public void addNotify(){
         super.addNotify();
