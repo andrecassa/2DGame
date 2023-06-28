@@ -114,7 +114,7 @@ public class GamePanel extends JPanel{
 
     public void render(){
         if(g != null){
-            g.setColor(new Color(66, 134, 244));
+            g.setColor(new Color(80, 140, 180));
             g.fillRect(0,0, width, height);
             gsm.render(g);
         }

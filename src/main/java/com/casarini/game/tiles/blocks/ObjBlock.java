@@ -16,6 +16,10 @@ public class ObjBlock extends Block{
         return true;
     }
 
+    public boolean isInside(AABB p){
+        return false;
+    }
+
     public void render(Graphics2D g){
         super.render(g);
 

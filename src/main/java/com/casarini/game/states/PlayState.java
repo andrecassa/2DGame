@@ -27,7 +27,7 @@ public class PlayState extends GameState{
         tm = new TileManager("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\tile\\mappa1.xml");
         //font = new Font("font/RetroGaming.ttf", 16, 16);
         int size = 128;
-        player = new Player(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\src\\main\\resources\\entity\\player1.png", 48), new Vector2f( -16 - size/3 + (GamePanel.width/2), -32 -size/3 + (GamePanel.height/2)), 128);
+        player = new Player(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\src\\main\\resources\\entity\\player1.png", 48), new Vector2f( -16-8 - size/3 + (GamePanel.width/2), -32 -8 -size/3 + (GamePanel.height/2)), 128);
 
     }
 

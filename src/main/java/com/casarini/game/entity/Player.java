@@ -14,6 +14,10 @@ public class Player extends Entity {
         super(sprite, origin, size);
         acc = 2f;
         maxSpeed = 3f;
+        bounds.setWidth(36);
+        bounds.setHeight(20);
+        bounds.setXOffset(48);//32 for pvp
+        bounds.setYOffset(96);//52 for pvp
     }
     public void move(){
         if(up){
@@ -74,13 +78,19 @@ public class Player extends Entity {
     public void update(){
         super.update();
         move();
-        PlayState.map.x += dx;
-        PlayState.map.y += dy;
-        pos.x += dx;
-        pos.y += dy;
+        if(!bounds.collisionTile(dx, 0)) {
+            PlayState.map.x += dx;
+            pos.x += dx;
+        }
+        if(!bounds.collisionTile(0, dy)){
+            PlayState.map.y += dy;
+            pos.y += dy;
+        }
     }
     @Override
     public void render(Graphics2D g) {
+        g.setColor((Color.blue));
+        g.drawRect((int) (pos.getWorldVar().x + bounds.getXOffset()), (int) (pos.getWorldVar().y + bounds.getYOffset()), (int) bounds.getWidth(), (int) bounds.getHeight());
         g.drawImage(ani.getImage(), (int) (pos.getWorldVar().x), (int)(pos.getWorldVar().y), size, size, null);
     }
     public void input(MouseHandler mouse, KeyHandler key){

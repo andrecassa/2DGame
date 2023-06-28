@@ -24,9 +24,13 @@ public class Block {
         this.h = h;
     }
 
+    public boolean isInside(AABB p){
+        return false;
+    }
     public boolean update(AABB p) {
         return true;
     }
+
 
     public void render(Graphics2D g){
         int a =(int)pos.getWorldVar().x;

@@ -14,6 +14,9 @@ public class NormBlock extends Block{
     public boolean update(AABB p){
         return false;
     }
+    public boolean isInside(AABB p){
+        return false;
+    }
 
     public void render(Graphics2D g){
         super.render(g);

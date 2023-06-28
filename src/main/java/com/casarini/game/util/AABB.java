@@ -2,6 +2,8 @@ package com.casarini.game.util;
 
 import com.casarini.game.entity.Entity;
 import com.casarini.game.tiles.TileMapObj;
+import com.casarini.game.tiles.blocks.Block;
+import com.casarini.game.tiles.blocks.HoleBlock;
 
 public class AABB {
 
@@ -53,6 +55,9 @@ public class AABB {
     public void setHeight(float f){h = f;}
     public void setXOffset(float f){xOffset = f;}
     public void setYOffset(float f){yOffset = f;}
+    public float getXOffset(){return xOffset;}
+    public float getYOffset(){return yOffset;}
+
 
     public boolean collides(AABB bBox){
         float ax = ((pos.getWorldVar().x + (xOffset)) + (w / 2));
@@ -83,16 +88,36 @@ public class AABB {
         return false;
     }
 
-    /*public boolean collisionTile(float ax, float ay){
+    public boolean collisionTile(float ax, float ay){
         for(int c=0; c<4; c++){
             int xt = (int) ((pos.x + ax) + (c % 2) * w + xOffset) / 64;
-            int yt = (int) ((pos.y + ax) + (c % 2) * h + yOffset) / 64;
+            int yt = (int) ((pos.y + ay) + ((int) (c / 2)) * h + yOffset) / 64;
 
-            if(TileMapObj.tmo_blocks.containKey(String.valueOf(xt) + "," + String.valueOf(yt))){
+            if(TileMapObj.tmo_blocks.containsKey(String.valueOf(xt) + "," + String.valueOf(yt))){
+                Block block = TileMapObj.tmo_blocks.get(String.valueOf(xt) + "," + String.valueOf(yt));
+                if(block instanceof HoleBlock){
+                    return collisionHole(ax, ay, xt, yt, block);
+                }
                 return TileMapObj.tmo_blocks.get(String.valueOf(xt) + "," + String.valueOf(yt)).update(this);
             }
         }
         return false;
+    }
+    private boolean collisionHole(float ax, float ay, float xt, float yt, Block block){
+        int nextXt = (int) ((((pos.x + ax) + xOffset) / 64) + w / 64);
+        int nextYt = (int) ((((pos.y + ay) + yOffset) / 64) + h / 64);
 
-    }*/
+        if((nextXt == yt + 1) || (nextYt == xt + 1)){
+            if(TileMapObj.tmo_blocks.containsKey(String.valueOf(nextXt) + "," + String.valueOf(nextYt))){
+                Block blockNeighbour = TileMapObj.tmo_blocks.get(String.valueOf(nextXt) + "," + String.valueOf(nextYt));
+                return blockNeighbour.update(this);
+            }else{
+                if(block.isInside(this)){
+                    return block.update(this);
+                }
+            }
+        }
+
+        return false;
+    }
 }

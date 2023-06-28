@@ -54,8 +54,8 @@ public abstract class Entity {
         pos = origin;
         this.size = size;
 
-        bounds = new AABB(origin, size, size);
-        hitBounds = new AABB(new Vector2f(origin.x + (size / 2), origin.y), size, size);
+        bounds = new AABB(origin, size/2, size/2);
+        hitBounds = new AABB(new Vector2f(origin.x + (size / 2), origin.y), size/2, size/2);
 
         ani = new Animation();
         setAnimation(RIGHT, sprite.getSpriteArray(RIGHT), 10);
