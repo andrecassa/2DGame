@@ -1,6 +1,7 @@
 package com.casarini.game.states;
 
 import com.casarini.game.GamePanel;
+import com.casarini.game.entity.Enemy;
 import com.casarini.game.entity.Player;
 import com.casarini.game.graphics.Sprite;
 import com.casarini.game.tiles.TileManager;
@@ -15,6 +16,7 @@ import static com.casarini.game.tiles.TileManager.tm;
 public class PlayState extends GameState{
     private com.casarini.game.graphics.Font font;
     private Player player;
+    private Enemy enemy;
     private TileManager tm;
 
     public static Vector2f map;
@@ -27,7 +29,8 @@ public class PlayState extends GameState{
         tm = new TileManager("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\tile\\mappa1.xml");
         //font = new Font("font/RetroGaming.ttf", 16, 16);
         int size = 128;
-        player = new Player(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\src\\main\\resources\\entity\\player1.png", 48), new Vector2f( -16-8 - size/3 + (GamePanel.width/2), -32 -8 -size/3 + (GamePanel.height/2)), 128);
+        enemy = new Enemy(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\slime1.png", 32), new Vector2f( 300 + - size/3 + (GamePanel.width/2), -32 -8 -size/3 + (GamePanel.height/2)), size/2);
+        player = new Player(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\src\\main\\resources\\entity\\player1.png", 48), new Vector2f( -16-8 - size/3 + (GamePanel.width/2), -32 -8 -size/3 + (GamePanel.height/2)), size);
 
     }
 
@@ -35,6 +38,7 @@ public class PlayState extends GameState{
     public void update() {
         Vector2f.setWorldVar(map.x, map.y);
         player.update();
+        enemy.update(player, enemy);
     }
 
     @Override
@@ -46,6 +50,7 @@ public class PlayState extends GameState{
     public void render(Graphics2D g) {
         tm.render(g);
         player.render(g);
+        enemy.render(g);
 
         /*java.awt.Font a = new java.awt.Font("Arial", java.awt.Font.BOLD, 24);
         g.setFont(a);

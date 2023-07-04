@@ -7,6 +7,7 @@ import com.casarini.game.util.Vector2f;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 public abstract class Entity {
 
@@ -18,6 +19,10 @@ public abstract class Entity {
     private final int IDLERIGHT = 1;
     private final int LEFT = 7;
     private final int IDLELEFT = 6;
+    private final int ATTACKLEFT = 8;
+    private final int ATTACKRIGHT = 10;
+    private final int ATTACKUP = 11;
+    private final int ATTACKDOWN = 9;
     protected int currentAnimation;
 
     protected Animation ani;
@@ -55,10 +60,10 @@ public abstract class Entity {
         this.size = size;
 
         bounds = new AABB(origin, size/2, size/2);
-        hitBounds = new AABB(new Vector2f(origin.x + (size / 2), origin.y), size/2, size/2);
+        hitBounds = new AABB(new Vector2f(origin.x + (size / 2), origin.y), size/3, size/3);
 
         ani = new Animation();
-        setAnimation(RIGHT, sprite.getSpriteArray(RIGHT), 10);
+        setAnimation(IDLEDOWN, sprite.getSpriteArray(IDLEDOWN), 10);
     }
 
     public void getSprite(Sprite sprite){
@@ -78,8 +83,29 @@ public abstract class Entity {
         ani.setFrames(frames);
         ani.setDelay(delay);
     }
+    public void setAnimationAttack(int i, BufferedImage[] frames, int delay){
+        currentAnimation = i;
+        ani.setFrames(frames);
+        ani.setDelay(delay);
+
+
+    }
     private void animate() {
-        if(up){
+        if(attack){
+            if(currentAnimation == IDLELEFT || currentAnimation == LEFT || ani.getDelay() == -1){
+                setAnimationAttack(ATTACKLEFT, sprite.getSpriteArray(ATTACKLEFT), 3);
+            }
+            else if(currentAnimation == IDLERIGHT || currentAnimation == RIGHT || ani.getDelay() == -1){
+                setAnimation(ATTACKRIGHT, sprite.getSpriteArray(ATTACKRIGHT), 3);
+            }
+            else if(currentAnimation == IDLEUP || currentAnimation == UP || ani.getDelay() == -1){
+                setAnimation(ATTACKUP, sprite.getSpriteArray(ATTACKUP), 3);
+            }
+            else if(currentAnimation == IDLEDOWN || currentAnimation == DOWN || ani.getDelay() == -1){
+                setAnimation(ATTACKDOWN, sprite.getSpriteArray(ATTACKDOWN), 3);
+            }
+        }
+        else if(up){
             last = UP;
             if(currentAnimation != UP || ani.getDelay() == -1){
                 setAnimation(UP, sprite.getSpriteArray(UP), 5);
@@ -127,6 +153,25 @@ public abstract class Entity {
             setAnimation(currentAnimation, sprite.getSpriteArray(currentAnimation), -1);
         }
     }
+    public void setHitBoxDirectionPlayer(){
+        if(up){
+            hitBounds.setXOffset(45);
+            hitBounds.setYOffset(50);
+        }
+        else if(down){
+            hitBounds.setXOffset(45);
+            hitBounds.setYOffset(120);
+        }
+        else if(left){
+            hitBounds.setXOffset(2);
+            hitBounds.setYOffset(84);
+        }
+        else if(right){
+            hitBounds.setXOffset(88);
+            hitBounds.setYOffset(84);
+        }
+
+    }
     public void setHitBoxDirection(){
         if(up){
             hitBounds.setXOffset(-size / 2);
@@ -146,10 +191,22 @@ public abstract class Entity {
         }
 
     }
+    public Vector2f getPos(){return pos;}
+    public Vector2f getCenter(int size){
+        float a = pos.x;
+        float b = pos.y;
+        float dx = (a + a + size) / 2;
+        float dy = (b + b + size) / 2;
+
+        Vector2f center = new Vector2f(dx, dy);
+        return center;
+    }
+
+
 
     public void update(){
         animate();
-        setHitBoxDirection();
+        setHitBoxDirectionPlayer();
         ani.update();
     }
 

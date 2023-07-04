@@ -87,6 +87,24 @@ public class AABB {
 
         return false;
     }
+    public boolean colCircleBox(AABB aBox, int r, int r2){
+        r += r2;
+        float dx = Math.max(aBox.getPos().getWorldVar().x + aBox.getXOffset(), Math.min(pos.getWorldVar().x + (r/2), aBox.getPos().getWorldVar().x + aBox.getXOffset() + aBox.getWidth()));
+        float dy = Math.max(aBox.getPos().getWorldVar().y + aBox.getYOffset(), Math.min(pos.getWorldVar().y + (r/2), aBox.getPos().getWorldVar().y + aBox.getYOffset() + aBox.getHeight()));
+
+        dx = pos.getWorldVar().x + (r/2) - dx;
+        dy = pos.getWorldVar().y + (r/2) - dy;
+
+        if(Math.sqrt(dx * dx + dy * dy) < (r / 2)){
+            return true;
+        }
+
+        return false;
+    }
+
+    public double distance(Vector2f pos, Vector2f pos2){
+        return Math.sqrt((pos2.y - pos.y) * (pos2.y - pos.y) + (pos2.x - pos.x) * (pos2.x - pos.x));
+    }
 
     public boolean collisionTile(float ax, float ay){
         for(int c=0; c<4; c++){

@@ -16,8 +16,8 @@ public class Player extends Entity {
         maxSpeed = 3f;
         bounds.setWidth(36);
         bounds.setHeight(20);
-        bounds.setXOffset(48);//32 for pvp
-        bounds.setYOffset(96);//52 for pvp
+        bounds.setXOffset(48);
+        bounds.setYOffset(96);
     }
     public void move(){
         if(up){
@@ -87,10 +87,17 @@ public class Player extends Entity {
             pos.y += dy;
         }
     }
+
     @Override
     public void render(Graphics2D g) {
         g.setColor((Color.blue));
         g.drawRect((int) (pos.getWorldVar().x + bounds.getXOffset()), (int) (pos.getWorldVar().y + bounds.getYOffset()), (int) bounds.getWidth(), (int) bounds.getHeight());
+
+        if(attack){
+            g.setColor(Color.red);
+            g.drawRect((int) (pos.getWorldVar().x + hitBounds.getXOffset()), (int) (pos.getWorldVar().y + hitBounds.getYOffset()), (int) hitBounds.getWidth(), (int) hitBounds.getHeight());
+        }
+
         g.drawImage(ani.getImage(), (int) (pos.getWorldVar().x), (int)(pos.getWorldVar().y), size, size, null);
     }
     public void input(MouseHandler mouse, KeyHandler key){

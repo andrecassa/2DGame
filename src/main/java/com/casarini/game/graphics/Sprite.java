@@ -92,6 +92,9 @@ public class Sprite {
     public BufferedImage getSpriteSheet(){return SPRITESHEET;}
     public BufferedImage getSprite(int x, int y){return SPRITESHEET.getSubimage(x*w, y*h, w, h);}
     public BufferedImage[] getSpriteArray(int i){return spriteArray[i];}
+    public BufferedImage[] getSpriteArrayAttack(int i){
+        return spriteArray[i];
+    }
     public BufferedImage[][] getSpriteArray2(int i){return spriteArray;}
     public static void drawArray(Graphics2D g, ArrayList<BufferedImage> img, Vector2f pos, int width, int height,
                                  int xOffset, int yOffset){
