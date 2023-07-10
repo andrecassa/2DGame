@@ -80,7 +80,8 @@ public class TileManager {
                 }
 
                 data[i] = eElement.getElementsByTagName("data").item(0).getTextContent();
-                System.out.println("-------------------------------------------" + data[i]);
+                //map print
+                //System.out.println("-------------------------------------------" + data[i]);
 
                 if(i>=1){
                     tm.add(new TileMapNorm(data[i], sprite, width, height, blockWidth, blockHeight, tileColumns));

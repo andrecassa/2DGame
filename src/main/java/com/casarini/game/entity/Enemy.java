@@ -7,6 +7,10 @@ import com.casarini.game.util.Vector2f;
 import java.awt.*;
 
 public class Enemy extends Entity{
+    private final int RIGHT = 2;
+    private final int IDLERIGHT = 0;
+    private final int LEFT = 7;
+    private final int IDLELEFT = 5;
 
     private AABB sense;
     private int r;
@@ -17,7 +21,7 @@ public class Enemy extends Entity{
         super(sprite, origin, size);
 
         acc = 1f;
-        maxSpeed = 3f;
+        maxSpeed = 2f;
         r = 135;
 
         bounds.setWidth(32);
@@ -28,23 +32,142 @@ public class Enemy extends Entity{
         sense = new AABB(new Vector2f(origin.x - size/2, origin.y - size/2), r, r);
     }
 
-    public void update(Player player, Enemy enemy){
-    ppos = player.getCenter(128);
-    ppos2 = enemy.getCenter(64);
-        if(player.getBounds().distance(player.getCenter(128), enemy.getCenter(64)) < r/2 + r2){
-            //System.out.println("yes");
+    private void move(Player player, Enemy enemy){
+        if(player.getBounds().distance(player.getCenter(psize), enemy.getCenter(esize)) < r/2 + r2) {
+            System.out.println("yes");
+            right = false;
+            left = true;
+
+
+            if (pos.y > player.getCenter(psize).y) {
+                dy -= acc;
+                if (dy < -maxSpeed) {
+                    dy = -maxSpeed;
+                }
+            } else {
+                if (dy < 0) {
+                    dy += deacc;
+                    if (dy < 0) {
+                        dy = 0;
+                    }
+                }
+            }
+            if (pos.y < player.getCenter(psize).y) {
+                dy += acc;
+                if (dy > maxSpeed) {
+                    dy = maxSpeed;
+                }
+            } else {
+                if (dy > 0) {
+                    dy -= deacc;
+                    if (dy > 0) {
+                        dy = 0;
+                    }
+                }
+            }
+            if (enemy.getCenter(esize).x > player.getCenter(psize).x) {
+                dx -= acc;
+                left = true;
+                right= false;
+                if (dx < -maxSpeed) {
+                    dx = -maxSpeed;
+                }
+            } else {
+                if (dx < 0) {
+                    dx += deacc;
+                    if (dx < 0) {
+                        dx = 0;
+                    }
+                }
+            }
+            if (enemy.getCenter(esize).x < player.getCenter(psize).x) {
+                dx += acc;
+                right = true;
+                left = false;
+                if (dx > maxSpeed) {
+                    dx = maxSpeed;
+                }
+            } else {
+                if (dx > 0) {
+                    dx -= deacc;
+                    if (dx > 0) {
+                        dx = 0;
+                    }
+                }
+            }
+        }else{
+            dx = 0;
+            dy = 0;
+            left = false;
+            right = false;
         }
+
+    }
+
+
+    private void animate() {
+        if(right){
+            last = RIGHT;
+            if(currentAnimation != RIGHT || ani.getDelay() == -1){
+                setAnimation(RIGHT, sprite.getSpriteArray(RIGHT), 5);
+            }
+        }
+        else if(left) {
+            last = LEFT;
+            if (currentAnimation != LEFT || ani.getDelay() == -1) {
+                setAnimation(LEFT, sprite.getSpriteArray(LEFT), 5);
+            }
+        }else if (last == RIGHT) {
+            if (currentAnimation != IDLERIGHT || ani.getDelay() == -1) {
+                setAnimationSpec(IDLERIGHT, sprite.getSpriteArray(IDLERIGHT), 8, 4);
+            }
+        } else if (last == LEFT) {
+            if (currentAnimation != IDLELEFT || ani.getDelay() == -1) {
+                setAnimationSpec(IDLELEFT, sprite.getSpriteArray(IDLELEFT), 8, 4);
+            }
+        } else {
+            setAnimation(currentAnimation, sprite.getSpriteArray(currentAnimation), -1);
+        }
+    }
+    public void stop(Enemy enemy){
+        enemy.dx = 0;
+        enemy.dy = 0;
+
+    }
+
+
+    public void update(Player player, Enemy enemy){
+        super.update();
+        move(player, enemy);
+        if(!tc.collisionTile(dx, 0)){
+            sense.getPos().x += dx;
+            pos.x += dx;
+        }
+        if(!tc.collisionTile(0, dy)){
+            sense.getPos().y += dy;
+            pos.y += dy;
+        }
+
+        ppos = player.getCenter(psize);//only for drawing distance
+        ppos2 = enemy.getCenter(esize);//only for drawing distance
+
+
+
+        animate();
+        ani.update();
     }
 
     @Override
     public void render(Graphics2D g) {
+        //slime hitbox
         g.setColor(Color.green);
         g.drawRect((int) (pos.getWorldVar().x + bounds.getXOffset()), (int) (pos.getWorldVar().y + bounds.getYOffset()), (int) bounds.getWidth(), (int) bounds.getHeight());
 
+        //slime range (circle)
         g.setColor(Color.blue);
         g.drawOval((int) (sense.getPos().getWorldVar().x - r2), (int) (sense.getPos().getWorldVar().y - r2), r+2*r2, r+2*r2);
 
-
+        //distance from slime
         g.setColor(Color.yellow);
         g.drawLine((int) ppos.getWorldVar().x, (int) ppos.getWorldVar().y, (int) ppos2.getWorldVar().x, (int) ppos2.getWorldVar().y);
 
