@@ -6,6 +6,7 @@ import com.casarini.game.states.PlayState;
 import com.casarini.game.util.KeyHandler;
 import com.casarini.game.util.MouseHandler;
 import com.casarini.game.util.Vector2f;
+import javafx.scene.shape.Rectangle;
 
 import java.awt.*;
 
@@ -23,6 +24,11 @@ public class Player extends Entity {
     private final int ATTACKRIGHT = 10;
     private final int ATTACKUP = 11;
     private final int ATTACKDOWN = 9;
+    private final int DEATHLEFT = 13;
+    private final int DEATHRIGHT = 12;
+    private Rectangle rectPlayer;
+    private Rectangle rectAttack;
+    private Rectangle rectEnemy;
 
     public Player(Sprite sprite, Vector2f origin, int size) {
         super(sprite, origin, size);
@@ -32,6 +38,11 @@ public class Player extends Entity {
         bounds.setHeight(20);
         bounds.setXOffset(48);
         bounds.setYOffset(96);
+
+        hitBoxPlayer.setWidth(36);
+        hitBoxPlayer.setHeight(48);
+        hitBoxPlayer.setXOffset(48);
+        hitBoxPlayer.setYOffset(68);
     }
     private void move(){
         if(up){
@@ -87,6 +98,14 @@ public class Player extends Entity {
             }
         }
 
+    }
+    private void resetSpeed(){
+        acc = 2f;
+        maxSpeed = 3f;
+    }
+    private void shiftSpeed(){
+        acc = 3f;
+        maxSpeed = 5f;
     }
 
     private void animate() {
@@ -178,11 +197,65 @@ public class Player extends Entity {
 
         pos.y = GamePanel.height / 2 - 32;
         PlayState.map.y = 0;
+        this.setAlive();
+        this.setTmp(0);
+        setAnimationSpec(IDLEDOWN, sprite.getSpriteArray(IDLEDOWN), 5, 3);
+    }
+    public void deathAnimation(){
+        if((last == LEFT || last == DOWN) && this.getTmp() == 0){
+            setAnimationSpec(DEATHLEFT, sprite.getSpriteArray(DEATHLEFT), 10, 3);
+        }else if((last == RIGHT || last == UP) && this.getTmp() == 0){
+            setAnimationSpec(DEATHRIGHT, sprite.getSpriteArray(DEATHRIGHT), 10, 3);
+        }
+        this.setTmp(this.getTmp()+1);
+        //if tmp = delay-10 (so its the last animation)
+        if(this.getTmp() == 20){
+            this.stop();
+            this.killed();
+        }
+        move();
+        ani.update();
     }
 
-    @Override
-    public void update(){
+    public void update(Enemy[] enemy, int enemySize){
         super.update();
+
+        if(!this.isAlive()) {
+            this.deathAnimation();
+            return;
+        }
+
+        rectPlayer = new Rectangle((int) (pos.getWorldVar().x + hitBoxPlayer.getXOffset()), (int) (pos.getWorldVar().y + hitBoxPlayer.getYOffset()), (int) hitBoxPlayer.getWidth(), (int) hitBoxPlayer.getHeight());
+        rectAttack = new Rectangle((int) (pos.getWorldVar().x + hitBounds.getXOffset()), (int) (pos.getWorldVar().y + hitBounds.getYOffset()), (int) hitBounds.getWidth(), (int) hitBounds.getHeight());
+
+
+        for(int i=0; i<enemySize; i++){
+            rectEnemy = new Rectangle((int) enemy[i].getBounds().getPos().getWorldVar().x + enemy[i].getBounds().getXOffset(), (int) enemy[i].getBounds().getPos().getWorldVar().y + enemy[i].getBounds().getYOffset(),
+                    (int) enemy[i].getBounds().getWidth(), (int) enemy[i].getBounds().getHeight());
+
+            if(hitBounds.col(rectPlayer, rectEnemy) && enemy[i].isAlive()){
+                if(System.nanoTime() - this.getHit() > this.getInvincibilityTime()){
+                    System.out.println("player hit");
+                    this.setHit();
+                    this.setDead();
+                }
+            }
+            if(attack && hitBounds.col(rectAttack, rectEnemy)){
+                if(System.nanoTime() - enemy[i].getHit() > enemy[i].getInvincibilityTime() && enemy[i].isAlive()){
+                    System.out.println("enemy hit");
+                    enemy[i].setHit();
+                    enemy[i].setDead();
+                }
+            }
+        }
+
+
+        if(shift){
+            shiftSpeed();
+        }else{
+            resetSpeed();
+        }
+
         move();
         if(!tc.collisionTile(dx, 0)) {
             PlayState.map.x += dx;
@@ -202,14 +275,25 @@ public class Player extends Entity {
 
     @Override
     public void render(Graphics2D g) {
+        /*
         g.setColor((Color.blue));
         g.drawRect((int) (pos.getWorldVar().x + bounds.getXOffset()), (int) (pos.getWorldVar().y + bounds.getYOffset()), (int) bounds.getWidth(), (int) bounds.getHeight());
+
+        if(rectAttack!=null){
+            g.setColor((Color.black));
+            g.drawRect((int) rectAttack.getX(), (int) rectAttack.getY(), (int) rectAttack.getWidth(), (int) rectAttack.getHeight());
+            g.drawRect((int) rectEnemy.getX(), (int) rectEnemy.getY(), (int) rectEnemy.getWidth(), (int) rectEnemy.getHeight());
+            g.setColor((Color.MAGENTA));
+            g.drawRect((int) rectPlayer.getX(), (int) rectPlayer.getY(), (int) rectPlayer.getWidth(), (int) rectPlayer.getHeight());
+
+        }
+
 
         if(attack){
             g.setColor(Color.red);
             g.drawRect((int) (pos.getWorldVar().x + hitBounds.getXOffset()), (int) (pos.getWorldVar().y + hitBounds.getYOffset()), (int) hitBounds.getWidth(), (int) hitBounds.getHeight());
         }
-
+        */
         g.drawImage(ani.getImage(), (int) (pos.getWorldVar().x), (int)(pos.getWorldVar().y), size, size, null);
     }
     public void input(MouseHandler mouse, KeyHandler key){
@@ -237,11 +321,15 @@ public class Player extends Entity {
         }else {
             right = false;
         }
-
         if(key.attack.down){
             attack = true;
         }else {
             attack = false;
+        }
+        if(key.shift.down){
+            shift = true;
+        }else {
+            shift = false;
         }
     }
 }

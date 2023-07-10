@@ -45,6 +45,7 @@ public class KeyHandler implements KeyListener{
     public Key menu = new Key();
     public Key enter = new Key();
     public Key escape = new Key();
+    public Key shift = new Key();
 
     public KeyHandler(GamePanel game){
         game.addKeyListener(this);
@@ -68,6 +69,7 @@ public class KeyHandler implements KeyListener{
         if(e.getKeyCode() == KeyEvent.VK_E) menu.toggle(pressed);
         if(e.getKeyCode() == KeyEvent.VK_ENTER) enter.toggle(pressed);
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE) escape.toggle(pressed);
+        if(e.getKeyCode() == KeyEvent.VK_SHIFT) shift.toggle(pressed);
     }
 
 

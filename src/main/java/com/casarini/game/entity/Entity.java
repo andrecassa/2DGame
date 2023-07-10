@@ -8,7 +8,6 @@ import com.casarini.game.util.Vector2f;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
 public abstract class Entity {
 
@@ -25,6 +24,7 @@ public abstract class Entity {
     protected boolean right;
     protected boolean left;
     protected boolean attack;
+    protected boolean shift;
     protected int attackSpeed;
     protected int attackDuration;
 
@@ -35,11 +35,21 @@ public abstract class Entity {
     protected float maxSpeed = 4f;
     protected float acc = 3f;
     protected float deacc = 0.01f;
+    protected AABB hitBoxPlayer;
     protected AABB hitBounds;
     protected AABB bounds;
     protected TileCollision tc;
     protected int psize = 128;
     protected int esize = 64;
+    private boolean alive = true;
+
+    private long invincibilityTime = 1000000000;
+    private long hit = 0;
+    private int tmp=0;
+    private boolean killed = false;
+
+
+
 
 
     public Entity(Sprite sprite, Vector2f origin, int size){
@@ -47,6 +57,7 @@ public abstract class Entity {
         pos = origin;
         this.size = size;
 
+        hitBoxPlayer = new AABB(origin, size/2, size/2);
         bounds = new AABB(origin, size/2, size/2);
         hitBounds = new AABB(new Vector2f(origin.x + (size / 2), origin.y), size/3, size/3);
 
@@ -63,6 +74,30 @@ public abstract class Entity {
     public void setMaxSpeed(float f){maxSpeed = f;}
     public void setAcc(float f){acc = f;}
     public void setDeacc(float f){deacc = f;}
+    public long getInvincibilityTime(){return invincibilityTime;}
+    public long getHit(){return hit;}
+    public void setHit(){hit = System.nanoTime();}
+    public int getTmp(){return tmp;}
+    public int setTmp(int t){return tmp = t;}
+    public void killed(){killed = true;}
+    public boolean isDead(){return killed;}
+
+
+    public boolean isAlive(){
+        if(alive)return true;
+        else return false;
+    }
+    public void setDead(){alive = false;}
+    public void setAlive(){
+        alive = true;
+        killed = false;
+    }
+    public void entityAlive(){alive = true;}
+    public void stop(){
+        this.dx = 0;
+        this.dy = 0;
+    }
+
 
     public AABB getBounds(){return bounds;}
 

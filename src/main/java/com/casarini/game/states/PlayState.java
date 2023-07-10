@@ -16,7 +16,9 @@ import static com.casarini.game.tiles.TileManager.tm;
 public class PlayState extends GameState{
     private com.casarini.game.graphics.Font font;
     private Player player;
-    private Enemy enemy;
+    private Enemy enemy[];
+    private Enemy enemy2;
+    private int enemySize = 4;
     private TileManager tm;
 
     public static Vector2f map;
@@ -29,16 +31,27 @@ public class PlayState extends GameState{
         tm = new TileManager("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\tile\\mappa1.xml");
         //font = new Font("font/RetroGaming.ttf", 16, 16);
         int size = 128;
-        enemy = new Enemy(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\slime1.png", 32), new Vector2f( 300 + - size/3 + (GamePanel.width/2), -32 -8 -size/3 + (GamePanel.height/2)), size/2);
-        player = new Player(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\src\\main\\resources\\entity\\player1.png", 48), new Vector2f( -16-8 - size/3 + (GamePanel.width/2), -32 -8 -size/3 + (GamePanel.height/2)), size);
+        enemy = new Enemy[enemySize];
+        enemy[0] = new Enemy(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\slime1.png", 32), new Vector2f( 300 + - size/3 + (GamePanel.width/2), -32 -8 -size/3 + (GamePanel.height/2)), size/2);
+        enemy[1] = new Enemy(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\slime1.png", 32), new Vector2f( 400 + - size/3 + (GamePanel.width/2), -32 -8 -size/3 + (GamePanel.height/2)), size/2);
+        enemy[2] = new Enemy(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\slime1.png", 32), new Vector2f( 400 + - size/3 + (GamePanel.width/2), -132 -8 -size/3 + (GamePanel.height/2)), size/2);
+        enemy[3] = new Enemy(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\slime1.png", 32), new Vector2f( 300 + - size/3 + (GamePanel.width/2), -132 -8 -size/3 + (GamePanel.height/2)), size/2);
+
+
+        player = new Player(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\player1.png", 48), new Vector2f( -16-8 - size/3 + (GamePanel.width/2), -32 -8 -size/3 + (GamePanel.height/2)), size);
 
     }
 
     @Override
     public void update() {
         Vector2f.setWorldVar(map.x, map.y);
-        player.update();
-        enemy.update(player, enemy);
+        if(!player.isDead())player.update(enemy, enemySize);
+        else{
+            player.resetPosition();
+        }
+        for(int i=0; i<enemySize; i++){
+            if(!enemy[i].isDead())enemy[i].update(player, enemy[i]);
+        }
     }
 
     @Override
@@ -50,15 +63,9 @@ public class PlayState extends GameState{
     public void render(Graphics2D g) {
         tm.render(g);
         player.render(g);
-        enemy.render(g);
-
-        /*java.awt.Font a = new java.awt.Font("Arial", java.awt.Font.BOLD, 24);
-        g.setFont(a);
-        g.setColor(Color.black);
-        g.drawString("vaffanculo", 50, 50);*/
-
-
-        //Sprite.drawArray(g, font, "tua mamma", new Vector2f(100, 100),32, 32, 0, 0);
+        for(int i=0; i<enemySize; i++){
+            enemy[i].render(g);
+        }
     }
 
 

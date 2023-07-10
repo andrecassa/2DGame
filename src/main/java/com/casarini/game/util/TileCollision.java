@@ -42,4 +42,20 @@ public class TileCollision {
 
         return false;
     }
+    /*
+    public boolean collides(AABB bBox) {
+        float ax = ((pos.getWorldVar().x + (xOffset)) + (w / 2));
+        float ay = ((pos.getWorldVar().y + (yOffset)) + (h / 2));
+        float bx = ((bBox.getPos().getWorldVar().x + (bBox.xOffset / 2)) + (w / 2));
+        float by = ((bBox.getPos().getWorldVar().y + (bBox.yOffset / 2)) + (h / 2));
+
+        if (Math.abs(ax - bx) < (this.w / 2) + (bBox.w / 2)) {
+            if (Math.abs(ay - by) < (this.h / 2) + (bBox.h / 2)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+     */
 }

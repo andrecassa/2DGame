@@ -11,12 +11,15 @@ public class Enemy extends Entity{
     private final int IDLERIGHT = 0;
     private final int LEFT = 7;
     private final int IDLELEFT = 5;
+    private final int DEATHLEFT = 9;
+    private final int DEATHRIGHT = 4;
 
     private AABB sense;
     private int r;
     private int r2 = 150;
     private Vector2f ppos = new Vector2f(0,0);
     private Vector2f ppos2 = new Vector2f(0,0);
+
     public Enemy(Sprite sprite, Vector2f origin, int size){
         super(sprite, origin, size);
 
@@ -34,7 +37,7 @@ public class Enemy extends Entity{
 
     private void move(Player player, Enemy enemy){
         if(player.getBounds().distance(player.getCenter(psize), enemy.getCenter(esize)) < r/2 + r2) {
-            System.out.println("yes");
+            //System.out.println("yes");
             right = false;
             left = true;
 
@@ -126,19 +129,37 @@ public class Enemy extends Entity{
                 setAnimationSpec(IDLELEFT, sprite.getSpriteArray(IDLELEFT), 8, 4);
             }
         } else {
-            setAnimation(currentAnimation, sprite.getSpriteArray(currentAnimation), -1);
+            last = LEFT;
+            setAnimationSpec(IDLELEFT, sprite.getSpriteArray(IDLELEFT), 8, 4);
         }
     }
-    public void stop(Enemy enemy){
-        enemy.dx = 0;
-        enemy.dy = 0;
 
-    }
+
 
 
     public void update(Player player, Enemy enemy){
         super.update();
+        if(!this.isAlive()){
+            if(left && this.getTmp() == 0){
+                setAnimationSpec(DEATHLEFT, sprite.getSpriteArray(DEATHLEFT), 10, 5);
+            }else if(right && this.getTmp() == 0){
+                setAnimationSpec(DEATHRIGHT, sprite.getSpriteArray(DEATHRIGHT), 10, 5);
+            }
+
+            this.setTmp(this.getTmp()+1);
+            //if tmp = delay-10 (so its the last animation)
+            if(this.getTmp() == 40){
+                this.stop();
+                this.killed();
+            }
+
+            move(player, enemy);
+            ani.update();
+            return;
+        }
+
         move(player, enemy);
+
         if(!tc.collisionTile(dx, 0)){
             sense.getPos().x += dx;
             pos.x += dx;
@@ -159,6 +180,7 @@ public class Enemy extends Entity{
 
     @Override
     public void render(Graphics2D g) {
+/*
         //slime hitbox
         g.setColor(Color.green);
         g.drawRect((int) (pos.getWorldVar().x + bounds.getXOffset()), (int) (pos.getWorldVar().y + bounds.getYOffset()), (int) bounds.getWidth(), (int) bounds.getHeight());
@@ -170,7 +192,7 @@ public class Enemy extends Entity{
         //distance from slime
         g.setColor(Color.yellow);
         g.drawLine((int) ppos.getWorldVar().x, (int) ppos.getWorldVar().y, (int) ppos2.getWorldVar().x, (int) ppos2.getWorldVar().y);
-
+*/
         g.drawImage(ani.getImage(), (int) pos.getWorldVar().x, (int) pos.getWorldVar().y, size, size, null);
     }
 }

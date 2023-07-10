@@ -4,6 +4,7 @@ import com.casarini.game.entity.Entity;
 import com.casarini.game.tiles.TileMapObj;
 import com.casarini.game.tiles.blocks.Block;
 import com.casarini.game.tiles.blocks.HoleBlock;
+import javafx.scene.shape.Rectangle;
 
 public class AABB {
 
@@ -101,6 +102,23 @@ public class AABB {
             }
         }
         return false;
+    }
+    public boolean col(Rectangle rect1, Rectangle rect2){
+        double rect1Left = rect1.getX();
+        double rect1Right = rect1.getX() + rect1.getWidth();
+        double rect1Top = rect1.getY();
+        double rect1Bottom = rect1.getY() + rect1.getHeight();
+
+        double rect2Left = rect2.getX();
+        double rect2Right = rect2.getX() + rect2.getWidth();
+        double rect2Top = rect2.getY();
+        double rect2Bottom = rect2.getY() + rect2.getHeight();
+
+        if (rect1Left < rect2Right && rect1Right > rect2Left && rect1Top < rect2Bottom && rect1Bottom > rect2Top) {
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public double distance(Vector2f pos, Vector2f pos2) {
