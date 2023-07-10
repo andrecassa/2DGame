@@ -3,6 +3,7 @@ package com.casarini.game.entity;
 import com.casarini.game.graphics.Animation;
 import com.casarini.game.graphics.Sprite;
 import com.casarini.game.util.AABB;
+import com.casarini.game.util.TileCollision;
 import com.casarini.game.util.Vector2f;
 
 import java.awt.*;
@@ -51,6 +52,9 @@ public abstract class Entity {
     protected float deacc = 0.01f;
     protected AABB hitBounds;
     protected AABB bounds;
+    protected TileCollision tc;
+    protected int psize = 128;
+    protected int esize = 64;
 
     public void setUpIdle(){upIdle = true;}
 
@@ -64,6 +68,8 @@ public abstract class Entity {
 
         ani = new Animation();
         setAnimation(IDLEDOWN, sprite.getSpriteArray(IDLEDOWN), 10);
+
+        tc = new TileCollision(this);
     }
 
     public void getSprite(Sprite sprite){
