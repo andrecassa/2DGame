@@ -180,7 +180,7 @@ public class Enemy extends Entity{
 
     @Override
     public void render(Graphics2D g) {
-/*
+        /*
         //slime hitbox
         g.setColor(Color.green);
         g.drawRect((int) (pos.getWorldVar().x + bounds.getXOffset()), (int) (pos.getWorldVar().y + bounds.getYOffset()), (int) bounds.getWidth(), (int) bounds.getHeight());
@@ -192,7 +192,7 @@ public class Enemy extends Entity{
         //distance from slime
         g.setColor(Color.yellow);
         g.drawLine((int) ppos.getWorldVar().x, (int) ppos.getWorldVar().y, (int) ppos2.getWorldVar().x, (int) ppos2.getWorldVar().y);
-*/
+        */
         g.drawImage(ani.getImage(), (int) pos.getWorldVar().x, (int) pos.getWorldVar().y, size, size, null);
     }
 }

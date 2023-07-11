@@ -52,7 +52,6 @@ public class PlayState extends GameState{
             if(player.getHit() == 0) player.setHit();
             if(System.nanoTime() - player.getHit() > player.getInvincibilityTime()){
                 player.resetPosition();
-                System.out.println("aaaaaaaaaaaaaaa");
             }
         }
         for(int i=0; i<enemySize; i++){
