@@ -32,10 +32,10 @@ public class PlayState extends GameState{
         //font = new Font("font/RetroGaming.ttf", 16, 16);
         int size = 128;
         enemy = new Enemy[enemySize];
-        enemy[0] = new Enemy(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\slime1.png", 32), new Vector2f( 300 + - size/3 + (GamePanel.width/2), -32 -8 -size/3 + (GamePanel.height/2)), size/2);
-        enemy[1] = new Enemy(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\slime1.png", 32), new Vector2f( 400 + - size/3 + (GamePanel.width/2), -32 -8 -size/3 + (GamePanel.height/2)), size/2);
-        enemy[2] = new Enemy(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\slime1.png", 32), new Vector2f( 400 + - size/3 + (GamePanel.width/2), -132 -8 -size/3 + (GamePanel.height/2)), size/2);
-        enemy[3] = new Enemy(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\slime1.png", 32), new Vector2f( 300 + - size/3 + (GamePanel.width/2), -132 -8 -size/3 + (GamePanel.height/2)), size/2);
+        enemy[0] = new Enemy(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\slime1.png", 32), new Vector2f( (float)(300 + -size / 3 + GamePanel.width / 2), (float)(-32 -8 -size/3 + GamePanel.height/2)), size/2);
+        enemy[1] = new Enemy(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\slime1.png", 32), new Vector2f( (float)(400 + -size / 3 + GamePanel.width / 2), (float)(-32 -8 -size/3 + GamePanel.height/2)), size/2);
+        enemy[2] = new Enemy(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\slime1.png", 32), new Vector2f((float)(400 + 24 + -size / 3 + GamePanel.width / 2), (float)(-140 + 24 - size / 3 + GamePanel.height / 2)), size / 2);
+        enemy[3] = new Enemy(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\slime1.png", 32), new Vector2f((float)(300 +16+ -size / 3 + GamePanel.width / 2), (float)(-140 - size / 3 + GamePanel.height / 2)), size / 2);
 
 
         player = new Player(new Sprite("C:\\Users\\stefa\\IdeaProjects\\Game\\res\\entity\\player1.png", 48), new Vector2f( -16-8 - size/3 + (GamePanel.width/2), -32 -8 -size/3 + (GamePanel.height/2)), size);
@@ -45,9 +45,15 @@ public class PlayState extends GameState{
     @Override
     public void update() {
         Vector2f.setWorldVar(map.x, map.y);
-        if(!player.isDead())player.update(enemy, enemySize);
+        if(!player.isDead()){
+            player.update(enemy, enemySize);
+        }
         else{
-            player.resetPosition();
+            if(player.getHit() == 0) player.setHit();
+            if(System.nanoTime() - player.getHit() > player.getInvincibilityTime()){
+                player.resetPosition();
+                System.out.println("aaaaaaaaaaaaaaa");
+            }
         }
         for(int i=0; i<enemySize; i++){
             if(!enemy[i].isDead())enemy[i].update(player, enemy[i]);

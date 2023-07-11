@@ -91,6 +91,7 @@ public abstract class Entity {
     public void setAlive(){
         alive = true;
         killed = false;
+        hit = 0;
     }
     public void entityAlive(){alive = true;}
     public void stop(){
